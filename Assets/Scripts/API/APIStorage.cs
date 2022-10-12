@@ -2,6 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Place-bet
+public struct placeBet
+{
+    public string[] players_session_id;
+    public string bet_id;
+}
+
+public class MatchDetails
+{
+}
+
+// Winner
+public struct winner
+{
+    public string betting_id;
+    public string winner_player_id;
+    public MatchDetails match_details; // 빈 값
+}
+
+// Disconnect
+public struct disconnect
+{
+    public string betting_id;
+}
+
 public class APIStorage : MonoBehaviour
 {
 
@@ -13,16 +38,13 @@ public class APIStorage : MonoBehaviour
     // 데이터 저장은 2인대전만 한다.
     // [0] : Player1(Host), [1] : Player2(Client)
 
-    public string apiKey
-    {
-        get { return apiKey; }
-        private set { apiKey = "70pNqHWqzZ0DXwsIP0e0bA"; }
-    }
+    public string apiKey = "70pNqHWqzZ0DXwsIP0e0bA";
 
     public static APIStorage instance;
 
     private void Awake()
     {
+        
         instance = this;
         statusCode = new string[2];
         _id = new string[2];
@@ -31,12 +53,15 @@ public class APIStorage : MonoBehaviour
         message = new string[2];
         amount_won = new string[2];
         bet_id = new string[2];
-        betting_id = new string[2];
         currency = new string[2];
         zera = new string[2];
         ace = new string[2];
+        ready = new bool[2];
 
     }
+
+    // 유저 배팅 준비 상태
+    public bool[] ready;
 
     // 유저의 재화를 저장할 변수
     public string[] zera;
@@ -64,7 +89,7 @@ public class APIStorage : MonoBehaviour
     public string[] bet_id;
 
     // 배팅을 했다는 배팅 정보가 묶여 있는 ID
-    public string[] betting_id;
+    public string betting_id;
 
     // (임시)재화의 이름을 담을 변수(입력을 받는다)
     public string[] currency;
@@ -79,7 +104,8 @@ public class APIStorage : MonoBehaviour
     private void Start()
     {
         // 테스트 용도 ID
-        winner_id = "633b86420e028f7ecb10fd09";
-        MetaMaskSessionID = "eiry4c7tix9T06Q2yObbrghBrQTETTTeorDSAv2R";
+        //winner_id = "633b86420e028f7ecb10fd09";
+        winner_id = "633c0d640e028f7ecb10fe1d";
+        MetaMaskSessionID = "aEwKulUkUB6c9lw3u8QxJE2lJ21SsD1Ne4DG45JA";
     }
 }

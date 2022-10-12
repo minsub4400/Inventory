@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class Player_BettingInfo : MonoBehaviour
+public class Player2_BettingInfo : MonoBehaviour
 {
     // ###############################################
     //             NAME : Simstealer                      
@@ -32,6 +32,15 @@ public class Player_BettingInfo : MonoBehaviour
         StartCoroutine(getUserProfileCaller());
     }
 
+    public void PostBettingSetting()
+    {
+        // 배팅할 수 있는 상태인지 확인 코드
+
+        // 배팅 하기를 누르면 Ready = true;
+        APIStorage.instance.ready[1] = true;
+        Debug.Log("Player2 Betting Complite");
+    }
+
     // 호출 정보 : StatusCode, _id, username
     private IEnumerator getUserProfileCaller()
     {
@@ -51,10 +60,10 @@ public class Player_BettingInfo : MonoBehaviour
             JsonData jsonPlayer = JsonMapper.ToObject(jsonResult);
 
             // 데이터 저장
-            APIStorage.instance.statusCode[0] = jsonPlayer["StatusCode"].ToString();
-            APIStorage.instance.userName[0] = jsonPlayer["userProfile"]["username"].ToString();
-            APIStorage.instance._id[0] = jsonPlayer["userProfile"]["_id"].ToString();
-            _idText.text = $"_id : {APIStorage.instance._id[0]}";
+            APIStorage.instance.statusCode[1] = jsonPlayer["StatusCode"].ToString();
+            APIStorage.instance.userName[1] = jsonPlayer["userProfile"]["username"].ToString();
+            APIStorage.instance._id[1] = jsonPlayer["userProfile"]["_id"].ToString();
+            _idText.text = $"_id : {APIStorage.instance._id[1]}";
             Debug.Log("getUserProfile Data Save Complited");
             StartCoroutine(getSessionIDCaller());
         }
@@ -79,9 +88,10 @@ public class Player_BettingInfo : MonoBehaviour
             JsonData jsonPlayer = JsonMapper.ToObject(jsonResult);
 
             // 데이터 저장
-            APIStorage.instance.statusCode[0] = jsonPlayer["StatusCode"].ToString();
-            APIStorage.instance.sessionId[0] = jsonPlayer["sessionId"].ToString();
-            SessionIDText.text = $"sessionId : {APIStorage.instance.sessionId[0]}";
+            /*APIStorage.instance.statusCode[1] = jsonPlayer["StatusCode"].ToString();
+            APIStorage.instance.sessionId[1] = jsonPlayer["sessionId"].ToString();*/
+            APIStorage.instance.sessionId[1] = "aEwKulUkUB6c9lw3u8QxJE2lJ21SsD1Ne4DG45JA";
+            SessionIDText.text = $"sessionId : {APIStorage.instance.sessionId[1]}";
             Debug.Log("getUserProfile Data Save Complited");
             StartCoroutine(getbettingCurrencyCaller());
         }
@@ -91,7 +101,8 @@ public class Player_BettingInfo : MonoBehaviour
     {
         
         // Zera
-        string getbettingCurrencyZera = $"https://odin-api-sat.browseosiris.com/v1/betting/zera/balance/{APIStorage.instance.sessionId[0]}";
+        //string getbettingCurrencyZera = $"https://odin-api-sat.browseosiris.com/v1/betting/zera/balance/{APIStorage.instance.sessionId[1]}";
+        string getbettingCurrencyZera = $"https://odin-api-sat.browseosiris.com/v1/betting/zera/balance/aEwKulUkUB6c9lw3u8QxJE2lJ21SsD1Ne4DG45JA";
         //string getbettingCurrency = $"https://odin-api-sat.browseosiris.com/v1/betting/{storage.currency}/balance/{storage.sessionId}";
         using (UnityWebRequest www = UnityWebRequest.Get(getbettingCurrencyZera))
         {
@@ -109,15 +120,16 @@ public class Player_BettingInfo : MonoBehaviour
             JsonData jsonPlayer = JsonMapper.ToObject(jsonResult);
 
             // 데이터 저장
-            APIStorage.instance.message[0] = jsonPlayer["message"].ToString();
-            APIStorage.instance.zera[0] = jsonPlayer["data"]["balance"].ToString();
-            zeraText.text = APIStorage.instance.zera[0];
+            APIStorage.instance.message[1] = jsonPlayer["message"].ToString();
+            APIStorage.instance.zera[1] = jsonPlayer["data"]["balance"].ToString();
+            zeraText.text = APIStorage.instance.zera[1];
             Debug.Log("getbettingCurrency Zera Data Save Complited");
             //StartCoroutine(getSettingsCaller());
         }
 
         // Ace
-        string getbettingCurrencyAce = $"https://odin-api-sat.browseosiris.com/v1/betting/zera/balance/{APIStorage.instance.sessionId[0]}";
+        //string getbettingCurrencyAce = $"https://odin-api-sat.browseosiris.com/v1/betting/ace/balance/{APIStorage.instance.sessionId[1]}";
+        string getbettingCurrencyAce = $"https://odin-api-sat.browseosiris.com/v1/betting/ace/balance/aEwKulUkUB6c9lw3u8QxJE2lJ21SsD1Ne4DG45JA";
         using (UnityWebRequest www = UnityWebRequest.Get(getbettingCurrencyAce))
         {
             yield return www.SendWebRequest();
@@ -134,9 +146,9 @@ public class Player_BettingInfo : MonoBehaviour
             JsonData jsonPlayer = JsonMapper.ToObject(jsonResult);
 
             // 데이터 저장
-            APIStorage.instance.message[0] = jsonPlayer["message"].ToString();
-            APIStorage.instance.ace[0] = jsonPlayer["data"]["balance"].ToString();
-            aceText.text = APIStorage.instance.ace[0];
+            APIStorage.instance.message[1] = jsonPlayer["message"].ToString();
+            APIStorage.instance.ace[1] = jsonPlayer["data"]["balance"].ToString();
+            aceText.text = APIStorage.instance.ace[1];
             Debug.Log("getbettingCurrency Ace Data Save Complited");
             //StartCoroutine(getSettingsCaller());
         }
