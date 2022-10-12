@@ -53,7 +53,7 @@ public class PostAPICallValue : MonoBehaviour
 
     // API Value Storage에서 변수가져다 사용
     //[SerializeField]
-    public APIStorage storage;
+    //public APIStorage storage;
 
     // 텍스트 출력
     //[SerializeField]
@@ -61,7 +61,7 @@ public class PostAPICallValue : MonoBehaviour
 
     void Start()
     {
-        storage = GetComponent<APIStorage>();
+        //storage = GetComponent<APIStorage>();
         //StartCoroutine(UnityWebRequestPost());
     }
 
@@ -76,9 +76,9 @@ public class PostAPICallValue : MonoBehaviour
 
         placeBet placeBet = new placeBet();
         placeBet.players_session_id = new string[2];
-        placeBet.players_session_id[0] = storage.sessionId;
-        placeBet.players_session_id[1] = storage.MetaMaskSessionID;
-        placeBet.bet_id = storage.bet_id;
+        placeBet.players_session_id[0] = APIStorage.instance.sessionId[0];
+        placeBet.players_session_id[1] = APIStorage.instance.MetaMaskSessionID;
+        placeBet.bet_id = APIStorage.instance.bet_id[0];
 
         // 직렬화
         var serializeObject = JsonConvert.SerializeObject(placeBet);
@@ -89,7 +89,7 @@ public class PostAPICallValue : MonoBehaviour
             www.uploadHandler.Dispose();
             www.uploadHandler = new UploadHandlerRaw(jsonToSend);
 
-            www.SetRequestHeader("api-key", storage.apiKey);
+            www.SetRequestHeader("api-key", APIStorage.instance.apiKey);
             www.SetRequestHeader("Content-Type", "application/json");
 
             yield return www.SendWebRequest();
@@ -103,9 +103,9 @@ public class PostAPICallValue : MonoBehaviour
             string jsonResult = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
             JsonData jsonPlayer = JsonMapper.ToObject(jsonResult);
             // 데이터 저장
-            storage.message = jsonPlayer["message"].ToString();
-            storage.betting_id = jsonPlayer["data"]["betting_id"].ToString();
-            Betting_idText.text = $"betting_id : {storage.betting_id}";
+            APIStorage.instance.message[0] = jsonPlayer["message"].ToString();
+            APIStorage.instance.betting_id[0] = jsonPlayer["data"]["betting_id"].ToString();
+            Betting_idText.text = $"betting_id : {APIStorage.instance.betting_id}";
             Debug.Log("PostPlaveBetCaller Data Save Complited");
 
 
@@ -123,11 +123,11 @@ public class PostAPICallValue : MonoBehaviour
         WWWForm form = new WWWForm();
 
         winner winnerBet = new winner();
-        winnerBet.betting_id = storage.betting_id;
-        winnerBet.winner_player_id = storage.winner_id;
+        winnerBet.betting_id = APIStorage.instance.betting_id[0];
+        winnerBet.winner_player_id = APIStorage.instance.winner_id;
         winnerBet.match_details = new MatchDetails();
         Debug.Log($"winnerBet.winner_player_id : {winnerBet.winner_player_id}");
-        Debug.Log($"storage.winner_id : {storage.winner_id}");
+        Debug.Log($"storage.winner_id : {APIStorage.instance.winner_id}");
         // 직렬화
         var serializeObject = JsonConvert.SerializeObject(winnerBet);
 
@@ -138,7 +138,7 @@ public class PostAPICallValue : MonoBehaviour
             www.uploadHandler = new UploadHandlerRaw(jsonToSend);
 
 
-            www.SetRequestHeader("api-key", storage.apiKey);
+            www.SetRequestHeader("api-key", APIStorage.instance.apiKey);
             www.SetRequestHeader("Content-Type", "application/json");
 
             yield return www.SendWebRequest();
@@ -152,8 +152,8 @@ public class PostAPICallValue : MonoBehaviour
             string jsonResult = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
             JsonData jsonPlayer = JsonMapper.ToObject(jsonResult);
             // 데이터 저장
-            storage.message = jsonPlayer["message"].ToString();
-            storage.amount_won = jsonPlayer["data"]["amount_won"].ToString();
+            APIStorage.instance.message[0] = jsonPlayer["message"].ToString();
+            APIStorage.instance.amount_won[0] = jsonPlayer["data"]["amount_won"].ToString();
             Debug.Log("WinnerCaller Data Save Complited");
             
         }

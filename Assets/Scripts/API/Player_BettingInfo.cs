@@ -1,47 +1,41 @@
-//using Newtonsoft.Json;
 using LitJson;
-using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using TMPro;
 
-public class GetAPICallValue : MonoBehaviour
+public class Player_BettingInfo : MonoBehaviour
 {
     // ###############################################
     //             NAME : Simstealer                      
     //             MAIL : minsub4400@gmail.com         
     // ###############################################
 
-    // API Value Storage에서 변수가져다 사용
-
-    // 텍스트 출력
-    //[SerializeField]
-    public Text Bets_idText;
-    //[SerializeField]
-    public Text SessionIDText;
-    //[SerializeField]
+    // ------- 텍스트 출력 --------
+    // _id
     public Text _idText;
+    // session_id
+    public Text SessionIDText;
+    // bet_id
+    public Text Bets_idText;
+    // userName
+    public Text userName;
+    // zera
+    public Text zeraText;
+    // ace
+    public Text aceText;
 
-    [SerializeField]
-    private TextMeshProUGUI currencyInputFieldText;
-
-    public void InputCurrencyBurtton()
+    // 유저 정보 가져오기 버튼
+    public void GetUserInfoBurtton()
     {
-        APIStorage.instance.currency[0] = currencyInputFieldText.text;
         StartCoroutine(getUserProfileCaller());
     }
 
-    // API 호출 경로 변수
-    // ----- Get method -----
     // 호출 정보 : StatusCode, _id, username
-    string getUserProfile = "http://localhost:8546/api/getuserprofile";
     private IEnumerator getUserProfileCaller()
     {
+        string getUserProfile = "http://localhost:8546/api/getuserprofile";
         using (UnityWebRequest www = UnityWebRequest.Get(getUserProfile))
         {
             yield return www.SendWebRequest();
@@ -63,14 +57,12 @@ public class GetAPICallValue : MonoBehaviour
             _idText.text = $"_id : {APIStorage.instance._id[0]}";
             Debug.Log("getUserProfile Data Save Complited");
             StartCoroutine(getSessionIDCaller());
-            //www.Dispose();
         }
     }
-
     // 호출 정보 : StatusCode, sessionId
-    string getSessionID = "http://localhost:8546/api/getsessionid";
     private IEnumerator getSessionIDCaller()
     {
+        string getSessionID = "http://localhost:8546/api/getsessionid";
         using (UnityWebRequest www = UnityWebRequest.Get(getSessionID))
         {
             yield return www.SendWebRequest();
@@ -92,16 +84,16 @@ public class GetAPICallValue : MonoBehaviour
             SessionIDText.text = $"sessionId : {APIStorage.instance.sessionId[0]}";
             Debug.Log("getUserProfile Data Save Complited");
             StartCoroutine(getbettingCurrencyCaller());
-            //www.Dispose();
         }
     }
-
     // 호출 정보 : message, data{balance}
     public IEnumerator getbettingCurrencyCaller()
     {
-        string getbettingCurrency = $"https://odin-api-sat.browseosiris.com/v1/betting/zera/balance/{APIStorage.instance.sessionId[0]}";
+        
+        // Zera
+        string getbettingCurrencyZera = $"https://odin-api-sat.browseosiris.com/v1/betting/zera/balance/{APIStorage.instance.sessionId[0]}";
         //string getbettingCurrency = $"https://odin-api-sat.browseosiris.com/v1/betting/{storage.currency}/balance/{storage.sessionId}";
-        using (UnityWebRequest www = UnityWebRequest.Get(getbettingCurrency))
+        using (UnityWebRequest www = UnityWebRequest.Get(getbettingCurrencyZera))
         {
             yield return www.SendWebRequest();
 
@@ -119,22 +111,15 @@ public class GetAPICallValue : MonoBehaviour
             // 데이터 저장
             APIStorage.instance.message[0] = jsonPlayer["message"].ToString();
             APIStorage.instance.zera[0] = jsonPlayer["data"]["balance"].ToString();
-            //Debug.Log(storage.balance);
-            Debug.Log("getbettingCurrency Data Save Complited");
-            StartCoroutine(getSettingsCaller());
-            //www.Dispose();
+            zeraText.text = APIStorage.instance.zera[0];
+            Debug.Log("getbettingCurrency Zera Data Save Complited");
+            //StartCoroutine(getSettingsCaller());
         }
-    }
 
-    // 호출 정보 : message, data{balance}
-    public IEnumerator getSettingsCaller()
-    {
-
-        string getbettingCurrency = $"https://odin-api-sat.browseosiris.com/v1/betting/settings";
-        using (UnityWebRequest www = UnityWebRequest.Get(getbettingCurrency))
+        // Ace
+        string getbettingCurrencyAce = $"https://odin-api-sat.browseosiris.com/v1/betting/zera/balance/{APIStorage.instance.sessionId[0]}";
+        using (UnityWebRequest www = UnityWebRequest.Get(getbettingCurrencyAce))
         {
-            www.SetRequestHeader("api-key", APIStorage.instance.apiKey);
-
             yield return www.SendWebRequest();
 
             // HTTP 에러 디버그
@@ -150,77 +135,10 @@ public class GetAPICallValue : MonoBehaviour
 
             // 데이터 저장
             APIStorage.instance.message[0] = jsonPlayer["message"].ToString();
-            APIStorage.instance.bet_id[0] = jsonPlayer["data"]["bets"][0]["_id"].ToString();
-            Bets_idText.text = $"bet_id : {APIStorage.instance.bet_id[0]}";
-            Debug.Log("getSettingsCaller Data Save Complited");
-            StartCoroutine(PostAPICallValue.instance.PostPlaveBetCaller());
-            //www.Dispose();
-        }
-    }
-
-
-    void Start()
-    {
-        //StartCoroutine(getUserProfileCaller());
-        //StartCoroutine(UnityWebRequestGet());
-    }
-
-    
-
-    IEnumerator UnityWebRequestGet()
-    {
-        //string userInfoGet = "/getuserprofile";    + "?apikey=" + apiKey" 
-        //string url = $"https://play-sat.dappstore.me{bettingInfo}?api-key={apiKey}";
-        string url = "https://odin-api-sat.browseosiris.com/v1/betting/settings";
-        //string url = "https://odin-api-sat.browseosiris.com/v1/betting/zera/balance";
-        //string url = "http://localhost:8546/api/getuserprofile";
-
-        UnityWebRequest www = UnityWebRequest.Get(url);
-        www.SetRequestHeader("api-key", APIStorage.instance.apiKey);
-        //www.GetResponseHeader("api-key");
-
-        yield return www.SendWebRequest();
-
-        // 에러가 없으면
-        if (www.error == null)
-        {
-            Debug.Log(www.downloadHandler.text);
-            Debug.Log(www.downloadHandler.data);
-        }
-        else
-        {
-            Debug.Log("ERROR");
-        }
-
-        // 파일을 유니티 프로젝트 경로에 저장하기(윈도우)
-        string path = Application.dataPath + "/APIData.json";
-        //string path = Path.Combine(Application.dataPath, "/playerData.json");
-        // 파일로 저장 (경로, 저장할 문자열(데이터, 파일))
-        // JsonUtility.ToJson(playerData, true); true는 Json파일을 보기 좋게 저장해준다.
-
-        //string jsonData = JsonUtility.ToJson(www.downloadHandler.text);
-        //string jsonData = JsonUtility.ToJson("hhhhhhhhhhhhhhhhhhhhhh", true);
-
-        JObject json = JObject.Parse(www.downloadHandler.text);
-        //Debug.Log(json);
-
-        /*FileStream fs = new FileStream(path, FileMode.Open);
-        byte[] buffer = Encoding.UTF8.GetBytes(jsonData);
-        fs.Write(buffer, 0, buffer.Length);
-        fs.Close();*/
-
-        // 파일로 변환
-        //File.WriteAllText(path, json.ToString());
-
-        // 데이터 분리.....
-        if (www.isDone)
-        {
-            string jsonResult = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
-
-            JsonData jsonPlayer = JsonMapper.ToObject(jsonResult);
-            //Debug.Log(jsonPlayer);
-            Debug.Log(jsonPlayer["data"]["settings"]["_id"]);
+            APIStorage.instance.ace[0] = jsonPlayer["data"]["balance"].ToString();
+            aceText.text = APIStorage.instance.ace[0];
+            Debug.Log("getbettingCurrency Ace Data Save Complited");
+            //StartCoroutine(getSettingsCaller());
         }
     }
 }
-
