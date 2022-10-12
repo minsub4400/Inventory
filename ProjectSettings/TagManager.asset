@@ -18,6 +18,7 @@ TagManager:
   - Panel
   - Player1
   - Player2
+  - Chet
   layers:
   - Default
   - TransparentFX

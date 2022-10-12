@@ -43,17 +43,17 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         });
     }
 
-    // NetworkRunner?? ?????? ???? ????
+    // NetworkRunner가 서버에 연결 성공
     public void OnConnectedToServer(NetworkRunner runner)
     {
     }
 
-    // NetworkRunner?? ?????? ???? ????
+    // NetworkRunner가 서버에 연결 실패
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
     }
 
-    // NetworkRunner?? ????????? ???? ???? ????? ???????
+    // NetworkRunner가 클라이언트로 부터 연결 요청을 받았을때
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
     }
@@ -62,7 +62,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
     }
 
-    // ????(????)???? ?????? ??????
+    // 서버(호스트)에서 연결을 끊을때
     public void OnDisconnectedFromServer(NetworkRunner runner)
     {
     }
@@ -71,7 +71,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
     }
 
-    // ??????? ??? ?????? ?????????? ????
+    // 사용자의 입력 정보를 업데이트처럼 동작
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
@@ -91,12 +91,12 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         input.Set(data);
     }
 
-    // ??????? ????? ??? ???? ??
+    // 사용자의 입력을 찾지 못할 때
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
     }
 
-    // ?? ????????? ?濡 ??????????
+    // 어떤 클라이언트가 방에 참여했을때
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         // Create a unique position for the player
@@ -106,7 +106,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         _spawnedCharacters.Add(player, networkPlayerObject);
     }
 
-    // ?? ????????? ?濡?? ?????? ??
+    // 어떤 클라이언트가 방에서 나갔을 때
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         // Find and remove the players avatar
@@ -129,12 +129,12 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
     }
 
-    // ?? ????(????)?? ??????? ???? ???
+    // 방 정보(세션)이 업데이트 ?瑛 경우
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
     }
 
-    // // NetworkRunner?? ???
+    // // NetworkRunner가 다운
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
     }

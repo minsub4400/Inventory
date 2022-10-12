@@ -6,10 +6,9 @@ using UnityEngine.UI;
 
 public class Player : NetworkBehaviour
 {
-    // ???????? ????? ??? ?????????
+    // 네트워크로 동기화 되는 변수만들기
     [Networked]
     public byte MyByte { get; set; }
-
 
     private NetworkCharacterController _cc;
 
@@ -29,7 +28,7 @@ public class Player : NetworkBehaviour
 
     public override void Render()
     {
-        // Object.HasInputAuthority : ??? ????? ????? ?? ?? ??????
+        // Object.HasInputAuthority : 자기 자신이 입력을 할 수 있을때
         if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority)
         {
             MyByte = (byte)UnityEngine.Random.Range(0, 255);
@@ -47,16 +46,16 @@ public class Player : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_SendMessage(string message, RpcInfo info = default)
     {
+        // 로컬 플레이어면
         if (info.Source == Runner.Simulation.LocalPlayer)
             message = $"You said: {message}\n";
-        else
+        else // 리모트 플레이어면
             message = $"Some other player said: {message}\n";
-        FindObjectOfType<Text>().text += message;
+        GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += message;
     }
 
 
     /*private Text _messages;
-
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_SendMessage(string message, RpcInfo info = default)
     {
