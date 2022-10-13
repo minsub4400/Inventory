@@ -20,6 +20,8 @@ TagManager:
   - Player2
   - Chet
   - LobbyManager
+  - BasicSpawner
+  - PlayerAPI
   layers:
   - Default
   - TransparentFX

@@ -56,12 +56,12 @@ public class APIStorage : MonoBehaviour
         currency = new string[2];
         zera = new string[2];
         ace = new string[2];
-        ready = new bool[2];
 
     }
 
     // 유저 배팅 준비 상태
-    public bool[] ready;
+    public bool ready1;
+    public bool ready2;
 
     // 유저의 재화를 저장할 변수
     public string[] zera;

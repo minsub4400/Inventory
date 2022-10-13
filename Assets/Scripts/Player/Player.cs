@@ -44,6 +44,12 @@ public class Player : NetworkBehaviour
         {
             RPC_SendMessage("Hey Mate!");
         }
+
+        if (Object.HasInputAuthority && Input.GetKeyDown(KeyCode.T))
+        {
+            GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += "잘 들어 옴";
+        }
+
     }
 
     //[SerializeField]
@@ -69,12 +75,12 @@ public class Player : NetworkBehaviour
 
         // 남에 것 가져오기
         // 로비 매니져 찾기
-        aPIStorageOBJ = GameObject.FindGameObjectWithTag("LobbyManager").gameObject;
+        /*aPIStorageOBJ = GameObject.FindGameObjectWithTag("LobbyManager").gameObject;
         APIStorage apiSotrage = aPIStorageOBJ.transform.GetComponent<APIStorage>();
         if (apiSotrage != null)
         {
             GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += apiSotrage.winner_id;
-        }
+        }*/
 
 
     }

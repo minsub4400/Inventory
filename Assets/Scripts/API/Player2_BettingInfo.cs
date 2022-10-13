@@ -37,7 +37,7 @@ public class Player2_BettingInfo : MonoBehaviour
         // 배팅할 수 있는 상태인지 확인 코드
 
         // 배팅 하기를 누르면 Ready = true;
-        APIStorage.instance.ready[1] = true;
+        APIStorage.instance.ready2 = true;
         Debug.Log("Player2 Betting Complite");
     }
 
