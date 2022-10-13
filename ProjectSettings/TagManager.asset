@@ -19,6 +19,7 @@ TagManager:
   - Player1
   - Player2
   - Chet
+  - LobbyManager
   layers:
   - Default
   - TransparentFX

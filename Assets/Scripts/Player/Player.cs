@@ -10,6 +10,9 @@ public class Player : NetworkBehaviour
     [Networked]
     public byte MyByte { get; set; }
 
+    // 동기화 되어야 하는 변수
+    // - 재화
+
     private NetworkCharacterController _cc;
 
     private void Awake()
@@ -43,6 +46,9 @@ public class Player : NetworkBehaviour
         }
     }
 
+    //[SerializeField]
+    private GameObject aPIStorageOBJ;
+    
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_SendMessage(string message, RpcInfo info = default)
     {
@@ -51,7 +57,26 @@ public class Player : NetworkBehaviour
             message = $"You said: {message}\n";
         else // 리모트 플레이어면
             message = $"Some other player said: {message}\n";
-        GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += message;
+        //GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += message;
+
+        // 자신 것 가져오기
+        /*aPIStorageOBJ = aPIStorageOBJ.transform.GetChild(2).gameObject;
+        Player_BettingInfo aPIStorage = aPIStorageOBJ.GetComponent<Player_BettingInfo>();
+        if (aPIStorage != null)
+        {
+            GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += aPIStorage.Test;
+        }*/
+
+        // 남에 것 가져오기
+        // 로비 매니져 찾기
+        aPIStorageOBJ = GameObject.FindGameObjectWithTag("LobbyManager").gameObject;
+        APIStorage apiSotrage = aPIStorageOBJ.transform.GetComponent<APIStorage>();
+        if (apiSotrage != null)
+        {
+            GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += apiSotrage.winner_id;
+        }
+
+
     }
 
 

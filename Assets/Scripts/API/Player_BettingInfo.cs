@@ -26,9 +26,12 @@ public class Player_BettingInfo : MonoBehaviour
     // ace
     public Text aceText;
 
+    // 테스트 변수
+    public string Test;
+
     private void Start()
     {
-
+        Test = "하하하하하하하핳";
         // 리스트 비어있으면 Null
         // Debug.Log(APIStorage.instance.sessionId[0]);
         // Debug.Log(APIStorage.instance.sessionId[1]);
