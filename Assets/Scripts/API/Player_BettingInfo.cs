@@ -1,4 +1,3 @@
-using Fusion;
 using LitJson;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class Player_BettingInfo : NetworkBehaviour
+public class Player_BettingInfo : MonoBehaviour
 {
     // ###############################################
     //             NAME : Simstealer                      
@@ -54,22 +53,21 @@ public class Player_BettingInfo : NetworkBehaviour
     public void PostBettingSetting()
     {
         // 배팅할 수 있는 상태인지 확인 코드
-        if (Object.HasInputAuthority)
+        if (player == 2)
         {
-            if (player == 2)
-            {
-                // 배팅 하기를 누르면 Ready = true;
-                storageOBJ = GameObject.FindGameObjectWithTag("LobbyManager");
-                APIStorage storage = storageOBJ.GetComponent<APIStorage>();
-                storage.ready1 = true;
-            }
+            Debug.Log("플레이어 2");
+            // 배팅 하기를 누르면 Ready = true;
+            storageOBJ = GameObject.FindGameObjectWithTag("LobbyManager");
+            APIStorage storage = storageOBJ.GetComponent<APIStorage>();
+            storage.ready1 = true;
+        }
 
-            if (player == 3)
-            {
-                storageOBJ = GameObject.FindGameObjectWithTag("LobbyManager");
-                APIStorage storage = storageOBJ.GetComponent<APIStorage>();
-                storage.ready2 = true;
-            }
+        if (player == 3)
+        {
+            Debug.Log("플레이어 3");
+            storageOBJ = GameObject.FindGameObjectWithTag("LobbyManager");
+            APIStorage storage = storageOBJ.GetComponent<APIStorage>();
+            storage.ready2 = true;
         }
 
         Debug.Log($"Player{player} Betting Complite");
