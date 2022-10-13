@@ -106,6 +106,6 @@ public class APIStorage : MonoBehaviour
         // 테스트 용도 ID
         //winner_id = "633b86420e028f7ecb10fd09";
         winner_id = "633c0d640e028f7ecb10fe1d";
-        MetaMaskSessionID = "aEwKulUkUB6c9lw3u8QxJE2lJ21SsD1Ne4DG45JA";
+        MetaMaskSessionID = "eiry4c7tix9T06Q2yObbrghBrQTETTTeorDSAv2R";
     }
 }

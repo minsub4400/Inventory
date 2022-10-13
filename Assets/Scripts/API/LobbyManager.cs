@@ -94,28 +94,27 @@ public class LobbyManager : MonoBehaviour
             networkObject[i] = basicSpawnerOBJ[i].GetComponent<NetworkObject>();
         }
 
-        /*Debug.Log(networkObject[0].Id.Raw);
-        Debug.Log(networkObject[1].Id.Raw);*/
-
         if (networkObject[0].Id.Raw < networkObject[1].Id.Raw)
         {
             // 플레이어1
             // 플레이어1의 API데이터를 가져온다.
-            GameObject playerAPIOBJ = GameObject.FindGameObjectWithTag("PlayerAPI");
-            Player_BettingInfo player_BettingInfo = playerAPIOBJ.GetComponent<Player_BettingInfo>();
-            storage.statusCode[0] = player_BettingInfo.playerAPIInfoDB.statusCode;
-            storage._id[0] = player_BettingInfo.playerAPIInfoDB._id;
-            storage.sessionId[0] = player_BettingInfo.playerAPIInfoDB.sessionId;
-        }
-        else
-        {
+            //GameObject playerAPIOBJ = GameObject.FindGameObjectWithTag("PlayerAPI");
+            Player_BettingInfo player_BettingInfo1 = basicSpawnerOBJ[0].transform.GetChild(2).GetComponent<Player_BettingInfo>();
+            player_BettingInfo1.player = 2;
+            Debug.Log(player_BettingInfo1.player);
+            storage.statusCode[0] = player_BettingInfo1.playerAPIInfoDB.statusCode;
+            storage._id[0] = player_BettingInfo1.playerAPIInfoDB._id;
+            storage.sessionId[0] = player_BettingInfo1.playerAPIInfoDB.sessionId;
+
             // 플레이어2
             // 플레이어2의 API데이터를 가져온다.
-            GameObject playerAPIOBJ = GameObject.FindGameObjectWithTag("PlayerAPI");
-            Player_BettingInfo player_BettingInfo = playerAPIOBJ.GetComponent<Player_BettingInfo>();
-            storage.statusCode[1] = player_BettingInfo.playerAPIInfoDB.statusCode;
-            storage._id[1] = player_BettingInfo.playerAPIInfoDB._id;
-            storage.sessionId[1] = player_BettingInfo.playerAPIInfoDB.sessionId;
+            //GameObject playerAPIOBJ = GameObject.FindGameObjectWithTag("PlayerAPI");
+            Player_BettingInfo player_BettingInfo2 = basicSpawnerOBJ[1].transform.GetChild(2).GetComponent<Player_BettingInfo>();
+            player_BettingInfo2.player = 3;
+            Debug.Log(player_BettingInfo2.player);
+            storage.statusCode[1] = player_BettingInfo2.playerAPIInfoDB.statusCode;
+            storage._id[1] = player_BettingInfo2.playerAPIInfoDB._id;
+            storage.sessionId[1] = player_BettingInfo2.playerAPIInfoDB.sessionId;
         }
         Debug.Log("Player 지정 완료");
     }

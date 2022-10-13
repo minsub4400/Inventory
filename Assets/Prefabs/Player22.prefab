@@ -841,6 +841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5a73fb3a0d5fe468a9f2ced10cc401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   _idText: {fileID: 366605284}
   SessionIDText: {fileID: 1138085908}
   Bets_idText: {fileID: 1564412690}
@@ -856,6 +857,7 @@ MonoBehaviour:
     zera: 
     ace: 
     message: 
+  playerNum: {fileID: 0}
 --- !u!1 &1324125482
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,6 +1377,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 5519898868997305379}
   - {fileID: 3532708161416691646}
+  - {fileID: 1234764210}
   SimulationBehaviours: []
 --- !u!114 &5519898868997305379
 MonoBehaviour:

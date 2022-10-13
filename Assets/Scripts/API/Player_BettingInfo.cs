@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class Player_BettingInfo : MonoBehaviour
+public class Player_BettingInfo : NetworkBehaviour
 {
     // ###############################################
     //             NAME : Simstealer                      
@@ -27,60 +27,49 @@ public class Player_BettingInfo : MonoBehaviour
     // ace
     public Text aceText;
 
-    public int player;
+    public int player = -1;
 
     public PlayerAPIInfoDB playerAPIInfoDB;
 
-    [SerializeField]
-    private APIStorage aPIStorage;
+    private GameObject storageOBJ;
 
     private void Start()
     {
-        player = -1;
         // 리스트 비어있으면 Null
         // Debug.Log(APIStorage.instance.sessionId[0]);
         // Debug.Log(APIStorage.instance.sessionId[1]);
     }
 
+    [SerializeField]
+    public Text playerNum;
+
     // 유저 정보 가져오기 버튼
     public void GetUserInfoBurtton()
     {
-        Debug.Log(playerAPIInfoDB.sessionId);
-
-        // 플레이어 값을 받았는지 확인
-        if (player != -1)
-        {
-            StartCoroutine(getUserProfileCaller());
-            return;
-        }
-
-        // 처음에는 다 널일테니까 다 0번만 받겠는데..
-        if (playerAPIInfoDB.sessionId == null)
-        {
-            // Player1
-            player = 0;
-            StartCoroutine(getUserProfileCaller());
-        }
-        else
-        {
-            // player2
-            player = 1;
-            StartCoroutine(getUserProfileCaller());
-        }
+        StartCoroutine(getUserProfileCaller());
+        playerNum.text = $"플레이어 번호 : {player}";
     }
 
     // 서버 접속 되었을 때,
     public void PostBettingSetting()
     {
         // 배팅할 수 있는 상태인지 확인 코드
-        if (player == 0)
+        if (Object.HasInputAuthority)
         {
-            // 배팅 하기를 누르면 Ready = true;
-            aPIStorage.ready1 = true;
-        }
-        else if (player == 1)
-        {
-            aPIStorage.ready2 = true;
+            if (player == 2)
+            {
+                // 배팅 하기를 누르면 Ready = true;
+                storageOBJ = GameObject.FindGameObjectWithTag("LobbyManager");
+                APIStorage storage = storageOBJ.GetComponent<APIStorage>();
+                storage.ready1 = true;
+            }
+
+            if (player == 3)
+            {
+                storageOBJ = GameObject.FindGameObjectWithTag("LobbyManager");
+                APIStorage storage = storageOBJ.GetComponent<APIStorage>();
+                storage.ready2 = true;
+            }
         }
 
         Debug.Log($"Player{player} Betting Complite");

@@ -42,13 +42,10 @@ public class Player : NetworkBehaviour
     {
         if (Object.HasInputAuthority && Input.GetKeyDown(KeyCode.R))
         {
-            RPC_SendMessage("Hey Mate!");
+            Player_BettingInfo player_BettingInfo = GetComponentInChildren<Player_BettingInfo>();
+            RPC_SendMessage(player_BettingInfo.player.ToString());
         }
-
-        if (Object.HasInputAuthority && Input.GetKeyDown(KeyCode.T))
-        {
-            GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += "잘 들어 옴";
-        }
+        //GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += "잘 들어 옴";
 
     }
 
@@ -63,7 +60,7 @@ public class Player : NetworkBehaviour
             message = $"You said: {message}\n";
         else // 리모트 플레이어면
             message = $"Some other player said: {message}\n";
-        //GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += message;
+        GameObject.FindGameObjectWithTag("Chet").GetComponent<Text>().text += message;
 
         // 자신 것 가져오기
         /*aPIStorageOBJ = aPIStorageOBJ.transform.GetChild(2).gameObject;
